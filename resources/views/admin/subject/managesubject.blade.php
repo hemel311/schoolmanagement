@@ -1,6 +1,6 @@
 @extends("admin.master")
 @section('title')
-    Manage Class
+    Manage Subjects
 @endsection
 @section('body')
     <div class="container-fluid">
@@ -15,17 +15,19 @@
                                 <tr>
                                     <th>Sl no</th>
                                     <th>Class</th>
+                                    <th>Subjects</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($groups as $group)
+                                @foreach($subjects as $subject)
                                     <tr>
                                         <td>{{$loop->iteration}}</td>
-                                        <td>{{$group->class}}</td>
+                                        <td>{{$subject->group->class}}</td>
+                                        <td>{{$subject->subject}}</td>
                                         <td>
-                                            <a href="{{route('editclass',['id'=>$group->id])}}" class="btn btn-primary">Edit</a>
-                                            <a href="{{route('deleteclass',['id'=>$group->id])}}" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</a>
+                                            <a href="" class="btn btn-primary">Edit</a>
+                                            <a href="" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -34,6 +36,7 @@
                                 <tr>
                                     <th>Sl no</th>
                                     <th>Classes</th>
+                                    <th>Subjects</th>
                                     <th>Action</th>
                                 </tr>
                                 </tfoot>

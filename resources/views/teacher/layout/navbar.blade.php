@@ -31,7 +31,7 @@
                     <i class="icon-globe-alt menu-icon"></i><span class="nav-text">Exam Details</span>
                 </a>
                 <ul aria-expanded="false">
-                    <li><a href="./layout-blank.html">Give mark</a></li>
+                    <li><a href="{{route('searchstudent')}}">Give mark</a></li>
                 </ul>
             </li>
             <li class="mega-menu mega-menu-sm">

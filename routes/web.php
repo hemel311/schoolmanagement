@@ -21,6 +21,8 @@ use App\Http\Controllers\addmission\InvoiceController;
 use App\Http\Controllers\accountant\StudentpaymentController;
 use App\Http\Controllers\teacher\StudentDetailsController;
 use App\Http\Controllers\admin\AdminExamController;
+use App\Http\Controllers\admin\SubjectController;
+use App\Http\Controllers\teacher\ExamMarkController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -77,7 +79,9 @@ Route::prefix('teacher')->group(function (){
        Route::post('/search-student-details',[StudentDetailsController::class,'searchStudent'])->name('teacher.studentdetails');
     });
     Route::middleware(['auth:teacher', 'section.teacher'])->group(function () {
-
+            Route::get('/search-student',[ExamMarkController::class,'index'])->name('searchstudent');
+            Route::post('/get-student',[ExamMarkController::class,'searchStudent'])->name('getstudent');
+            Route::post('/store-mark',[ExamMarkController::class,'storeMarks'])->name('storemark');
     });
 });
 //Addmission Depertment
@@ -181,6 +185,11 @@ Route::middleware('auth:admin')->group(function (){
     Route::get('/delete-exam/{id}',[AdminExamController::class,'delete'])->name('deleteexam');
     Route::get('/edit-exam/{id}',[AdminExamController::class,'edit'])->name('editexam');
     Route::post('/update-exam/{id}',[AdminExamController::class,'update'])->name('updateexam');
+
+    //subject
+    Route::get('/add-subject',[SubjectController::class,'index'])->name('addsubject');
+    Route::post('/create-subject',[SubjectController::class,'store'])->name('createsubject');
+    Route::get('/manage-subject',[SubjectController::class,'manage'])->name('managesubject');
 });
 
 

@@ -23,6 +23,7 @@ use App\Http\Controllers\teacher\StudentDetailsController;
 use App\Http\Controllers\admin\AdminExamController;
 use App\Http\Controllers\admin\SubjectController;
 use App\Http\Controllers\teacher\ExamMarkController;
+use App\Http\Controllers\teacher\StudentAttendenceController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -82,6 +83,8 @@ Route::prefix('teacher')->group(function (){
             Route::get('/search-student',[ExamMarkController::class,'index'])->name('searchstudent');
             Route::post('/get-student',[ExamMarkController::class,'searchStudent'])->name('getstudent');
             Route::post('/store-mark',[ExamMarkController::class,'storeMarks'])->name('storemark');
+            Route::get('/student-attendence',[StudentAttendenceController::class,'index'])->name('add-attendence');
+            Route::post('/update-attendence',[StudentAttendenceController::class,'store'])->name('update-attendence');
     });
 });
 //Addmission Depertment

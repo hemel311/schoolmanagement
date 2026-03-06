@@ -39,7 +39,7 @@
                     <i class="icon-globe-alt menu-icon"></i><span class="nav-text">Attendence</span>
                 </a>
                 <ul aria-expanded="false">
-                    <li><a href="./layout-blank.html">Give Attendence</a></li>
+                    <li><a href="{{route('add-attendence')}}">Give Attendence</a></li>
                     <li><a href="./layout-blank.html">Manage Attandance</a></li>
                 </ul>
             </li>

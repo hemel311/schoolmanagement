@@ -49,7 +49,7 @@
                     <i class="icon-globe-alt menu-icon"></i><span class="nav-text">Materials</span>
                 </a>
                 <ul aria-expanded="false">
-                    <li><a href="./layout-blank.html">Upload Materials</a></li>
+                    <li><a href="{{route('addmaterial')}}">Upload Materials</a></li>
                     <li><a href="./layout-blank.html">Manage Materials</a></li>
                 </ul>
             </li>

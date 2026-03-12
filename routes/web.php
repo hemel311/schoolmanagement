@@ -24,6 +24,7 @@ use App\Http\Controllers\admin\AdminExamController;
 use App\Http\Controllers\admin\SubjectController;
 use App\Http\Controllers\teacher\ExamMarkController;
 use App\Http\Controllers\teacher\StudentAttendenceController;
+use App\Http\Controllers\teacher\MaterialController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -78,6 +79,8 @@ Route::prefix('teacher')->group(function (){
        Route::get('/dashboard',[TeacherDashboardController::class,'dashboard'])->name('teacher.dashboard');
        Route::get('/student-search',[StudentDetailsController::class,'index'])->name('teacher.studentdetails.search');
        Route::post('/search-student-details',[StudentDetailsController::class,'searchStudent'])->name('teacher.studentdetails');
+       Route::get('/add-material',[MaterialController::class,'index'])->name('addmaterial');
+       Route::post('/upload-material',[MaterialController::class,'store'])->name('uploadmaterial');
     });
     Route::middleware(['auth:teacher', 'section.teacher'])->group(function () {
             Route::get('/search-student',[ExamMarkController::class,'index'])->name('searchstudent');

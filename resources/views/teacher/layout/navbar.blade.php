@@ -50,7 +50,7 @@
                 </a>
                 <ul aria-expanded="false">
                     <li><a href="{{route('addmaterial')}}">Upload Materials</a></li>
-                    <li><a href="./layout-blank.html">Manage Materials</a></li>
+                    <li><a href="{{route('managematerial')}}">Manage Materials</a></li>
                 </ul>
             </li>
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\teacher;
 
 use App\Http\Controllers\Controller;
+use App\Models\Group;
 use App\Models\Material;
 use App\Models\Section;
 use Illuminate\Http\Request;
@@ -10,14 +11,25 @@ use Illuminate\Support\Facades\Auth;
 
 class MaterialController extends Controller
 {
+    protected $materials;
+    protected $groups;
+    protected $sections;
+
     public function index()
     {
+        $this->groups=Group::all();
+        $this->sections=Section::all();
         $teacher=Auth::guard('teacher')->user();
-        $section=Section::where('class_teacher_id',$teacher->id)->first();
         $materials=Material::where('teacher_id',$teacher->id)->latest()->get();
 
-        return view('teacher.material.uploadmaterial',['materials'=>$materials,'sections'=>$section]);
+        return view('teacher.material.uploadmaterial',['materials'=>$materials,'groups'=>$this->groups,'section'=>$this->sections]);
     }
+    public function getSections(Request $request)
+    {
+        $sections = Section::where('class_id', $request->group_id)->get();
+
+        return response()->json($sections);
+      }
     public function store(Request $request)
     {
 //        dd($request);
@@ -37,8 +49,8 @@ class MaterialController extends Controller
         Material::create([
 
             'teacher_id'=>$teacher->id,
-            'group_id'=>$section->class_id,
-            'section_id'=>$section->id,
+            'group_id'=>$request->group_id,
+            'section_id'=>$request->section_id,
             'title'=>$request->title,
             'file'=>$fileName,
             'description'=>$request->description
@@ -46,5 +58,12 @@ class MaterialController extends Controller
         ]);
 
         return back()->with('success','Material uploaded successfully');
+    }
+    public function manage()
+    {
+        $teacher=Auth::guard('teacher')->user();
+        $this->materials=Material::where('teacher_id',$teacher->id)->get();
+//        dd($this->materials);
+        return view('teacher.material.managematerial',['materials'=>$this->materials]);
     }
 }

@@ -39,6 +39,7 @@ use App\Http\Controllers\teacher\MaterialController;
 //Route::get('/', function () {
 //    return view('auth.login');
 //});
+Route::get('/get-sections', [MaterialController::class, 'getSections'])->name('get.sections');
 Route::get('/invoice/{id}/download', [InvoiceController::class, 'download'])
     ->name('invoice.download');
 Route::get('/invoice/{id}', [InvoiceController::class, 'show'])
@@ -81,6 +82,7 @@ Route::prefix('teacher')->group(function (){
        Route::post('/search-student-details',[StudentDetailsController::class,'searchStudent'])->name('teacher.studentdetails');
        Route::get('/add-material',[MaterialController::class,'index'])->name('addmaterial');
        Route::post('/upload-material',[MaterialController::class,'store'])->name('uploadmaterial');
+       Route::get('/manage-material',[MaterialController::class,'manage'])->name('managematerial');
     });
     Route::middleware(['auth:teacher', 'section.teacher'])->group(function () {
             Route::get('/search-student',[ExamMarkController::class,'index'])->name('searchstudent');

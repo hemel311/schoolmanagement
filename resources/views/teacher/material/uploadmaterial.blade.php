@@ -27,6 +27,25 @@
                             </div>
                             <div class="card-body">
                                 <div class="form-group row">
+                                    <label for="" class="col-form-label col-md-3">Class</label>
+                                    <div class="col-md-8">
+                                        <select name="group_id" id="group_id" class="form-control">
+                                            <option value="">Select a class</option>
+                                            @foreach($groups as $group)
+                                                <option value="{{ $group->id }}">{{ $group->class }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="" class="col-form-label col-md-3">Section</label>
+                                    <div class="col-md-8">
+                                        <select name="section_id" id="section_id" class="form-control">
+                                            <option value="">Select a section</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
                                     <label for="" class="col-form-label col-md-3">Title</label>
                                     <div class="col-md-8">
                                         <input type="text" name="title" class="form-control" required>
@@ -58,4 +77,35 @@
             </div>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            $('#group_id').on('change', function () {
+                let group_id = $(this).val();
+
+                if (group_id) {
+                    $.ajax({
+                        url: "{{ route('get.sections') }}",
+                        type: "GET",
+                        data: { group_id: group_id },
+                        success: function (data) {
+                            $('#section_id').empty();
+                            $('#section_id').append('<option value="">Select Section</option>');
+
+                            $.each(data, function (key, section) {
+                                $('#section_id').append(
+                                    '<option value="' + section.id + '">' + section.section + '</option>'
+                                );
+                            });
+                        }
+                    });
+                } else {
+                    $('#section_id').empty();
+                }
+            });
+
+        });
+    </script>
 @endsection

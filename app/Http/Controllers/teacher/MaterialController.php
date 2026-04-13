@@ -40,7 +40,7 @@ class MaterialController extends Controller
 
         $teacher = Auth::guard('teacher')->user();
 
-        $section = Section::where('class_teacher_id',$teacher->id)->first();
+        $this->sections = Section::where('class_teacher_id',$teacher->id)->first();
 
         $fileName = time().'.'.$request->file('file')->extension();
 
@@ -66,4 +66,15 @@ class MaterialController extends Controller
 //        dd($this->materials);
         return view('teacher.material.managematerial',['materials'=>$this->materials]);
     }
+    public function delete($id)
+    {
+        $this->materials=Material::findorfail($id);
+        if(file_exists($this->materials->file))
+        {
+            unlink($this->materials->file);
+        }
+        $this->materials->delete();
+        return redirect()->back()->with('success','Material Deleted successfully');
+    }
+
 }

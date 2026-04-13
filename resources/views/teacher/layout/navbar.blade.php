@@ -53,6 +53,15 @@
                     <li><a href="{{route('managematerial')}}">Manage Materials</a></li>
                 </ul>
             </li>
+            <li class="mega-menu mega-menu-sm">
+                <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                    <i class="icon-clock menu-icon"></i><span class="nav-text">Online Class</span>
+                </a>
+                <ul aria-expanded="false">
+                    <li><a href="{{route('addonlineclass')}}">Schedule Class</a></li>
+                    <li><a href="">Manage Online Class</a></li>
+                </ul>
+            </li>
 
         </ul>
     </div>

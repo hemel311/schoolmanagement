@@ -26,7 +26,7 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{$material->title}}</td>
                                         <td>
-                                            <a href="" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</a>
+                                            <a href="{{route('deleteMaterial',['id'=>$material->id])}}" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</a>
                                         </td>
 
                                     </tr>

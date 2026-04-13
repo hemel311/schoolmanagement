@@ -25,6 +25,7 @@ use App\Http\Controllers\admin\SubjectController;
 use App\Http\Controllers\teacher\ExamMarkController;
 use App\Http\Controllers\teacher\StudentAttendenceController;
 use App\Http\Controllers\teacher\MaterialController;
+use App\Http\Controllers\teacher\OnlineClassController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -83,6 +84,9 @@ Route::prefix('teacher')->group(function (){
        Route::get('/add-material',[MaterialController::class,'index'])->name('addmaterial');
        Route::post('/upload-material',[MaterialController::class,'store'])->name('uploadmaterial');
        Route::get('/manage-material',[MaterialController::class,'manage'])->name('managematerial');
+       Route::get('/delete-material/{id}',[MaterialController::class,'delete'])->name('deleteMaterial');
+       Route::get('/add-class-schedule',[OnlineClassController::class,'index'])->name('addonlineclass');
+       Route::post('/create-class-schedule',[OnlineClassController::class,'store'])->name('createonlineclass');
     });
     Route::middleware(['auth:teacher', 'section.teacher'])->group(function () {
             Route::get('/search-student',[ExamMarkController::class,'index'])->name('searchstudent');

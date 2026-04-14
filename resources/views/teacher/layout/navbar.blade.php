@@ -59,7 +59,7 @@
                 </a>
                 <ul aria-expanded="false">
                     <li><a href="{{route('addonlineclass')}}">Schedule Class</a></li>
-                    <li><a href="">Manage Online Class</a></li>
+                    <li><a href="{{route('manageonlineclass')}}">Manage Online Class</a></li>
                 </ul>
             </li>
 

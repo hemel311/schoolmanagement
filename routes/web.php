@@ -87,6 +87,10 @@ Route::prefix('teacher')->group(function (){
        Route::get('/delete-material/{id}',[MaterialController::class,'delete'])->name('deleteMaterial');
        Route::get('/add-class-schedule',[OnlineClassController::class,'index'])->name('addonlineclass');
        Route::post('/create-class-schedule',[OnlineClassController::class,'store'])->name('createonlineclass');
+       Route::get('/manage-class-schedule',[OnlineClassController::class,'manage'])->name('manageonlineclass');
+       Route::get('/delete-class-schedule/{id}',[OnlineClassController::class,'delete'])->name('deleteonlineclass');
+       Route::get('/edit-class-schedule/{id}',[OnlineClassController::class,'edit'])->name('editonlineclass');
+       Route::post('/update-class-schedule/{id}',[OnlineClassController::class,'update'])->name('updateonlineclass');
     });
     Route::middleware(['auth:teacher', 'section.teacher'])->group(function () {
             Route::get('/search-student',[ExamMarkController::class,'index'])->name('searchstudent');

@@ -32,7 +32,8 @@
                                 <div class="form-group row">
                                     <label class="col-form-label col-md-3">Class</label>
                                     <div class="col-md-8">
-                                        <select name="group_id" class="form-control" onchange="getFee(this.value)">
+                                        <select name="group_id" class="form-control"
+                                                onchange="getFee(this.value); getSections(this.value)">
                                             <option value="" selected>Select a Class</option>
                                             @foreach($classes as $class)
                                                 <option value="{{ $class->id }}">{{ $class->class }}</option>
@@ -44,11 +45,8 @@
                                 <div class="form-group row">
                                     <label class="col-form-label col-md-3">Section</label>
                                     <div class="col-md-8">
-                                        <select name="section_id" class="form-control">
-                                            <option value="" selected>Select a Section</option>
-                                            @foreach($sections as $section)
-                                                <option value="{{ $section->id }}">{{ $section->section }}</option>
-                                            @endforeach
+                                        <select name="section_id" id="section_id" class="form-control">
+                                            <option value="">Select a Section</option>
                                         </select>
                                     </div>
                                 </div>
@@ -190,6 +188,26 @@
             let total = document.getElementById('total_amount').value || 0;
             let paid = document.getElementById('paid_amount').value || 0;
             document.getElementById('due_amount').value = total - paid;
+        }
+    </script>
+    <script>
+        function getSections(classId) {
+            fetch('/get-sections/' + classId)
+                .then(response => response.json())
+                .then(data => {
+
+                    let sectionSelect = document.getElementById('section_id');
+
+                    // Clear old options
+                    sectionSelect.innerHTML = '<option value="">Select a Section</option>';
+
+                    // Add new options
+                    data.forEach(section => {
+                        sectionSelect.innerHTML +=
+                            `<option value="${section.id}">${section.section}</option>`;
+                    });
+
+                });
         }
     </script>
 @endsection

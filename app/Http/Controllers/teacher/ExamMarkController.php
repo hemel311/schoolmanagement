@@ -4,14 +4,19 @@ namespace App\Http\Controllers\teacher;
 
 use App\Http\Controllers\Controller;
 use App\Models\Mark;
+use App\Models\Section;
 use App\Models\Student;
 use App\Models\Subject;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ExamMarkController extends Controller
 {
     protected $student;
     protected $subjects;
+    protected $teacher;
+    protected $sections;
+    protected $groups;
     public function index()
     {
         return view('teacher.examark.searchstudent');
@@ -19,6 +24,7 @@ class ExamMarkController extends Controller
 
     public function searchStudent(Request $request)
     {
+        $this->teacher=Auth::guard('teacher')->user();
         $request->validate([
             'rollnumber' => 'required'
         ]);
@@ -27,6 +33,11 @@ class ExamMarkController extends Controller
 
         if (!$this->student) {
             return back()->with('error', 'Student not found');
+        }
+        $this->sections=Section::where('id',$this->student->section_id)->where('class_teacher_id',$this->teacher->id)->where('class_id',$this->student->group_id)->first();
+        if (!$this->sections)
+        {
+            return back()->with('error', 'Student not from your Section');
         }
 
         $this->subjects = Subject::where('group_id', $this->student->group_id)->get();

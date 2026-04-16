@@ -36,6 +36,9 @@ use App\Http\Controllers\teacher\OnlineClassController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::get('/get-sections/{classId}', function ($classId) {
+    return \App\Models\Section::where('class_id', $classId)->get();
+});
 
 //Route::get('/', function () {
 //    return view('auth.login');
@@ -67,6 +70,7 @@ Route::get('/get-monthly-fee/{classId}/{month}', function ($classId, $month) {
 Route::prefix('student')->group(function (){
     Route::middleware('auth:student')->group(function (){
         Route::get('/dashboard',[StudentController::class,'dashboard'])->name('student.dashboard');
+        Route::get('/class-schedule',[StudentController::class,'onlineClass'])->name('classschedule');
     });
 });
 //Parent Dashboard

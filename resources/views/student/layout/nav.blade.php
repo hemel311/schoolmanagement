@@ -18,7 +18,7 @@
                 </a>
             </li>
             <li class="mega-menu mega-menu-sm">
-                <a  href="">
+                <a  href="{{route('studentAttendenceView')}}">
                     <i class="icon-globe-alt menu-icon"></i><span class="nav-text">Attendence</span>
                 </a>
             </li>
@@ -28,7 +28,7 @@
                 </a>
             </li>
             <li class="mega-menu mega-menu-sm">
-                <a  href="">
+                <a  href="{{route('seeFees')}}">
                     <i class="icon-globe-alt menu-icon"></i><span class="nav-text">Fees & Invoice</span>
                 </a>
             </li>

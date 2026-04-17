@@ -58,7 +58,9 @@ class StudentpaymentController extends Controller
             'due_amount'   => $dueAmount,
             'status'       => $status,
         ]);
-        $fees = Fee::where('group_id', $request->group_id)->get();
+        $fees = Fee::where('group_id', $request->group_id)
+            ->where('month', $request->month)
+            ->get();
         foreach ($fees as $fee) {
             InvoiceItem::create([
                 'invoice_id' => $invoice->id,

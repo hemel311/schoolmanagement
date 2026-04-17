@@ -71,6 +71,10 @@ Route::prefix('student')->group(function (){
     Route::middleware('auth:student')->group(function (){
         Route::get('/dashboard',[StudentController::class,'dashboard'])->name('student.dashboard');
         Route::get('/class-schedule',[StudentController::class,'onlineClass'])->name('classschedule');
+        Route::get('/attendence-view',[StudentController::class,'studentAttendenceView'])->name('studentAttendenceView');
+        Route::get('/fees-view',[StudentController::class,'seeFees'])->name('seeFees');
+        Route::get('/invoice/{id}', [InvoiceController::class, 'show'])
+            ->name('student.invoice.show');
     });
 });
 //Parent Dashboard

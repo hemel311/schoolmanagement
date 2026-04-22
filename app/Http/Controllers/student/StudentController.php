@@ -48,4 +48,9 @@ class StudentController extends Controller
         return view('student.fees.seefees',['fees'=>$this->fees]);
 
     }
+    public function myProfile()
+    {
+        $this->student=Auth::guard('student')->user();
+        return view('student.myprofile.myprofile',['student'=>$this->student]);
+    }
 }

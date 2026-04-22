@@ -75,6 +75,7 @@ Route::prefix('student')->group(function (){
         Route::get('/fees-view',[StudentController::class,'seeFees'])->name('seeFees');
         Route::get('/invoice/{id}', [InvoiceController::class, 'show'])
             ->name('student.invoice.show');
+        Route::get('/my-profile',[StudentController::class,'myProfile'])->name('myprofile');
     });
 });
 //Parent Dashboard

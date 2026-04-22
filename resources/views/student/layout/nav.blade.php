@@ -33,7 +33,7 @@
                 </a>
             </li>
             <li class="mega-menu mega-menu-sm">
-                <a  href="">
+                <a  href="{{route('myprofile')}}">
                     <i class="icon-globe-alt menu-icon"></i><span class="nav-text">My profile</span>
                 </a>
             </li>

@@ -22,6 +22,16 @@
             <table class="table table-bordered">
                 <thead>
                 <tr>
+                    <th>Exam Type</th>
+                    <th>
+                        <select name="exam_type" id="" class="form-control">
+                            @foreach($exams as $exam)
+                            <option value="{{$exam->id}}">{{$exam->name}}</option>
+                            @endforeach
+                        </select>
+                    </th>
+                </tr>
+                <tr>
                     <th>Subject Name</th>
                     <th>Marks</th>
                 </tr>

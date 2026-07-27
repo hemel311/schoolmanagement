@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\student;
 
 use App\Http\Controllers\Controller;
+use App\Models\Exam;
 use App\Models\Invoice;
+use App\Models\Mark;
 use App\Models\onlineClass;
 use App\Models\StudentAttendence;
 use Illuminate\Http\Request;
@@ -15,6 +17,8 @@ class StudentController extends Controller
     protected $classSchedule;
     protected $attendenceView;
     protected $fees;
+    protected $examtype;
+    protected $marks;
     public function dashboard()
     {
         return view('student.dashboard');
@@ -53,4 +57,27 @@ class StudentController extends Controller
         $this->student=Auth::guard('student')->user();
         return view('student.myprofile.myprofile',['student'=>$this->student]);
     }
+    public function examtype()
+    {
+        $this->examtype=Exam::all();
+        return view('student.exam.examdetails',['exams'=>$this->examtype]);
+    }
+
+    public function marks(Request $request)
+    {
+        $student = Auth::guard('student')->user();
+
+        $exam = Exam::findOrFail($request->exam_type);
+
+        $marks = Mark::with('subject')
+            ->where('student_id', $student->id)
+            ->where('exam_type', $request->exam_type)
+            ->get();
+
+        return view('student.exam.mark', [
+            'marks' => $marks,
+            'exam_type' => $exam,
+        ]);
+    }
+
 }

@@ -23,7 +23,7 @@
                 </a>
             </li>
             <li class="mega-menu mega-menu-sm">
-                <a  href="">
+                <a  href="{{route('examtype')}}">
                     <i class="icon-globe-alt menu-icon"></i><span class="nav-text">Exam Marks</span>
                 </a>
             </li>

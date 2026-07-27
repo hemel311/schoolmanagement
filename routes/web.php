@@ -76,6 +76,9 @@ Route::prefix('student')->group(function (){
         Route::get('/invoice/{id}', [InvoiceController::class, 'show'])
             ->name('student.invoice.show');
         Route::get('/my-profile',[StudentController::class,'myProfile'])->name('myprofile');
+        Route::get('/exam-type',[StudentController::class,'examtype'])->name('examtype');
+        Route::post('/marks-details',[StudentController::class,'marks'])->name('marksdetails');
+
     });
 });
 //Parent Dashboard

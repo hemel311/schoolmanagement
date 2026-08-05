@@ -78,6 +78,10 @@ Route::prefix('student')->group(function (){
         Route::get('/my-profile',[StudentController::class,'myProfile'])->name('myprofile');
         Route::get('/exam-type',[StudentController::class,'examtype'])->name('examtype');
         Route::post('/marks-details',[StudentController::class,'marks'])->name('marksdetails');
+        Route::get(
+            '/student/marksheet/pdf/{exam}',
+            [StudentController::class,'downloadMarksheet']
+        )->name('student.marksheet.pdf');
 
     });
 });

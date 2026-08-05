@@ -21,36 +21,60 @@ class ExamMarkController extends Controller
     protected $examtype;
     public function index()
     {
-        return view('teacher.examark.searchstudent');
+        $exams = Exam::all();
+
+        return view('teacher.examark.searchstudent', compact('exams'));
     }
 
     public function searchStudent(Request $request)
     {
-        $this->examtype=Exam::all();
-        $this->teacher=Auth::guard('teacher')->user();
         $request->validate([
-            'rollnumber' => 'required'
+            'rollnumber' => 'required',
+            'exam_type'  => 'required',
         ]);
 
+        $this->teacher = Auth::guard('teacher')->user();
+
+        $this->examtype = Exam::all();
+
+        // Find student by roll number
         $this->student = Student::where('rollno', $request->rollnumber)->first();
 
         if (!$this->student) {
             return back()->with('error', 'Student not found');
         }
-        $this->sections=Section::where('id',$this->student->section_id)->where('class_teacher_id',$this->teacher->id)->where('class_id',$this->student->group_id)->first();
-        if (!$this->sections)
-        {
-            return back()->with('error', 'Student not from your Section');
+
+        // Check teacher authorization
+        $this->sections = Section::where('id', $this->student->section_id)
+            ->where('class_teacher_id', $this->teacher->id)
+            ->where('class_id', $this->student->group_id)
+            ->first();
+
+        if (!$this->sections) {
+            return back()->with('error', 'Student not from your section');
         }
 
+        // Load subjects
         $this->subjects = Subject::where('group_id', $this->student->group_id)->get();
 
-        if ( $this->subjects->isEmpty()) {
+        if ($this->subjects->isEmpty()) {
             return back()->with('error', 'No subject assigned to this class');
         }
 
-        return view('teacher.examark.mark', ['student'=>$this->student,'subjects'=>$this->subjects,'exams'=>$this->examtype]);
-}
+        // Load existing marks for the selected exam
+        $this->existingMarks = Mark::where('student_id', $this->student->id)
+            ->where('exam_type', $request->exam_type)
+            ->get()
+            ->keyBy('subject_id');
+
+        return view('teacher.examark.mark', [
+            'student'       => $this->student,
+            'subjects'      => $this->subjects,
+            'exams'         => $this->examtype,
+            'existingMarks' => $this->existingMarks,
+            'selectedExam'  => $request->exam_type,
+        ]);
+    }
     public function storeMarks(Request $request)
     {
 //        dd($request);
@@ -80,6 +104,28 @@ class ExamMarkController extends Controller
 
         return redirect()->route('searchstudent')->with('success', 'Marks saved successfully');
     }
+
+//    public function loadMarks(Request $request)
+//    {
+//        $student = Student::findOrFail($request->student_id);
+//
+//        $subjects = Subject::where('group_id', $student->group_id)->get();
+//
+//        $marks = Mark::where('student_id', $student->id)
+//            ->where('exam_type', $request->exam_type)
+//            ->get()
+//            ->keyBy('subject_id');
+//
+//        $exams = Exam::all();
+//
+//        return view('teacher.examark.mark', [
+//            'student' => $student,
+//            'subjects' => $subjects,
+//            'exams' => $exams,
+//            'selectedExam' => $request->exam_type,
+//            'existingMarks' => $marks,
+//        ]);
+//    }
 
 
 

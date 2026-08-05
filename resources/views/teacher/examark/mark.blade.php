@@ -24,9 +24,12 @@
                 <tr>
                     <th>Exam Type</th>
                     <th>
-                        <select name="exam_type" id="" class="form-control">
+                        <select name="exam_type" class="form-control">
                             @foreach($exams as $exam)
-                            <option value="{{$exam->id}}">{{$exam->name}}</option>
+                                <option value="{{ $exam->id }}"
+                                        {{ (isset($selectedExam) && $selectedExam == $exam->id) ? 'selected' : '' }}>
+                                    {{ $exam->name }}
+                                </option>
                             @endforeach
                         </select>
                     </th>
@@ -47,17 +50,26 @@
 
                         <!-- Marks Input Field -->
                         <td>
-                            <input type="number"
-                                   name="marks[{{ $subject->id }}]"
-                                   class="form-control"
-                                   placeholder="Enter Marks" required>
+                            <input
+                                    type="number"
+                                    name="marks[{{ $subject->id }}]"
+                                    class="form-control"
+                                    value="{{ old('marks.'.$subject->id, $existingMarks[$subject->id]->mark ?? '') }}">
                         </td>
                     </tr>
                 @endforeach
                 </tbody>
             </table>
 
-            <button type="submit" class="btn btn-success">Submit Marks</button>
+            @if($existingMarks->count())
+                <button type="submit" class="btn btn-warning">
+                    Update Marks
+                </button>
+            @else
+                <button type="submit" class="btn btn-success">
+                    Save Marks
+                </button>
+            @endif
         </form>
     </div>
 @endsection

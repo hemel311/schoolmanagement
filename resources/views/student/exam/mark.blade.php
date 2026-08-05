@@ -85,9 +85,10 @@
 
                     <tr>
                         <th width="8%">SL</th>
-                        <th width="42%">Subject</th>
-                        <th width="20%">Marks</th>
+                        <th width="35%">Subject</th>
+                        <th width="15%">Marks</th>
                         <th width="15%">Grade</th>
+                        <th width="12%">GPA</th>
                         <th width="15%">Remark</th>
                     </tr>
 
@@ -101,31 +102,48 @@
 
                             $total += $mark->mark;
 
+                            if(!isset($totalPoint)){
+                                $totalPoint = 0;
+                            }
+
                             if($mark->mark >= 80){
                                 $grade='A+';
+                                $point=5.00;
                                 $remark='Excellent';
                             }
                             elseif($mark->mark >= 70){
                                 $grade='A';
+                                $point=4.00;
                                 $remark='Very Good';
                             }
                             elseif($mark->mark >= 60){
                                 $grade='A-';
+                                $point=3.50;
                                 $remark='Good';
                             }
                             elseif($mark->mark >= 50){
                                 $grade='B';
+                                $point=3.00;
                                 $remark='Average';
                             }
-                            elseif($mark->mark >= 33){
+                            elseif($mark->mark >= 40){
                                 $grade='C';
+                                $point=2.00;
+                                $remark='Satisfactory';
+                            }
+                            elseif($mark->mark >= 33){
+                                $grade='D';
+                                $point=1.00;
                                 $remark='Pass';
                             }
                             else{
                                 $grade='F';
+                                $point=0.00;
                                 $remark='Fail';
                                 $result='FAIL';
                             }
+
+                            $totalPoint += $point;
 
                         @endphp
 
@@ -144,18 +162,19 @@
                             <td>
 
                                 @if($grade=='A+')
-                                    <span class="badge bg-success">{{ $grade }}</span>
+                                    <span class="badge bg-success text-white">{{ $grade }}</span>
 
                                 @elseif($grade=='F')
-                                    <span class="badge bg-danger">{{ $grade }}</span>
+                                    <span class="badge bg-danger text-white">{{ $grade }}</span>
 
                                 @else
-                                    <span class="badge bg-primary">{{ $grade }}</span>
+                                    <span class="badge bg-primary text-white">{{ $grade }}</span>
 
                                 @endif
 
                             </td>
 
+                            <td>{{ number_format($point,2) }}</td>
                             <td>{{ $remark }}</td>
 
                         </tr>
@@ -166,22 +185,31 @@
 
                     @php
 
-                        $average = $subjectCount > 0 ? round($total / $subjectCount,2) : 0;
+                        $average = $subjectCount > 0 ? round($total/$subjectCount,2) : 0;
 
-                        if($average >= 80){
+                        $gpa = $subjectCount > 0 ? round($totalPoint/$subjectCount,2) : 0;
+
+                        if($result=='FAIL'){
+                            $gpa=0.00;
+                        }
+
+                        if($gpa==5.00){
                             $overallGrade='A+';
                         }
-                        elseif($average >= 70){
+                        elseif($gpa>=4.00){
                             $overallGrade='A';
                         }
-                        elseif($average >= 60){
+                        elseif($gpa>=3.50){
                             $overallGrade='A-';
                         }
-                        elseif($average >= 50){
+                        elseif($gpa>=3.00){
                             $overallGrade='B';
                         }
-                        elseif($average >= 33){
+                        elseif($gpa>=2.00){
                             $overallGrade='C';
+                        }
+                        elseif($gpa>=1.00){
+                            $overallGrade='D';
                         }
                         else{
                             $overallGrade='F';
@@ -191,9 +219,9 @@
 
                     <tfoot>
 
-                    <tr class="table-secondary">
+                    <tr class="table-dark">
 
-                        <th colspan="2">
+                        <th colspan="2" class="text-end">
                             Total Marks
                         </th>
 
@@ -201,8 +229,16 @@
                             {{ $total }}
                         </th>
 
-                        <th colspan="2">
-                            Average : {{ $average }}
+                        <th>
+                            {{ $overallGrade }}
+                        </th>
+
+                        <th>
+                            {{ number_format($gpa,2) }}
+                        </th>
+
+                        <th>
+                            Avg: {{ $average }}
                         </th>
 
                     </tr>
@@ -214,9 +250,9 @@
                 <!-- Summary -->
                 <div class="row mt-4">
 
-                    <div class="col-md-4">
+                    <div class="col-md-3">
 
-                        <div class="card bg-info text-white">
+                        <div class="card bg-primary text-white shadow">
 
                             <div class="card-body text-center">
 
@@ -230,15 +266,15 @@
 
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-3">
 
-                        <div class="card bg-warning">
+                        <div class="card bg-info text-white shadow">
 
                             <div class="card-body text-center">
 
-                                <h6>Overall Grade</h6>
+                                <h6>Average</h6>
 
-                                <h3>{{ $overallGrade }}</h3>
+                                <h3>{{ $average }}</h3>
 
                             </div>
 
@@ -246,11 +282,29 @@
 
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-3">
+
+                        <div class="card bg-warning shadow">
+
+                            <div class="card-body text-center">
+
+                                <h6>GPA</h6>
+
+                                <h3>{{ number_format($gpa,2) }}</h3>
+
+                                <small>Out of 5.00</small>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-3">
 
                         @if($result=='PASS')
 
-                            <div class="card bg-success text-white">
+                            <div class="card bg-success text-white shadow">
 
                                 <div class="card-body text-center">
 
@@ -258,19 +312,23 @@
 
                                     <h3>PASS</h3>
 
+                                    <small>{{ $overallGrade }}</small>
+
                                 </div>
 
                             </div>
 
                         @else
 
-                            <div class="card bg-danger text-white">
+                            <div class="card bg-danger text-white shadow">
 
                                 <div class="card-body text-center">
 
                                     <h6>Result</h6>
 
                                     <h3>FAIL</h3>
+
+                                    <small>GPA : 0.00</small>
 
                                 </div>
 
@@ -310,9 +368,16 @@
 
                 <div class="text-center mt-5">
 
-                    <button class="btn btn-primary" onclick="window.print()">
-                        <i class="fa fa-print"></i> Print Marksheet
-                    </button>
+                    <a
+                            href="{{ route('student.marksheet.pdf',$exam_type->id) }}"
+                            target="_blank"
+                            class="btn btn-danger">
+
+                        <i class="fa fa-file-pdf"></i>
+
+                        Generate PDF
+
+                    </a>
 
                 </div>
 

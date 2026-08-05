@@ -8,6 +8,7 @@ use App\Models\Invoice;
 use App\Models\Mark;
 use App\Models\onlineClass;
 use App\Models\StudentAttendence;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -78,6 +79,26 @@ class StudentController extends Controller
             'marks' => $marks,
             'exam_type' => $exam,
         ]);
+    }
+    public function downloadMarksheet($examId)
+    {
+        $student = Auth::guard('student')->user();
+
+        $exam = Exam::findOrFail($examId);
+
+        $marks = Mark::with('subject')
+            ->where('student_id', $student->id)
+            ->where('exam_type', $examId)
+            ->get();
+
+        $pdf = Pdf::loadView('student.exam.marksheet-pdf', [
+            'marks' => $marks,
+            'exam_type' => $exam,
+        ]);
+
+        $pdf->setPaper('A4', 'portrait');
+
+        return $pdf->stream('Marksheet.pdf');
     }
 
 }

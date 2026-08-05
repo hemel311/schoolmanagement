@@ -10,18 +10,28 @@
                     <h2>Search Student Details</h2>
                 </div>
                 <div class="card-body">
-                    <form action="{{route('getstudent')}}" method="post">
+                    <form action="{{ route('getstudent') }}" method="POST">
                         @csrf
-                        <div class="form-group row">
-                            <div class="col-md-6">
-                                <input type="text" name="rollnumber"
-                                       class="form-control"
-                                       placeholder="Enter Student Rollnumber">
-                            </div>
-                            <input type="submit"
-                                   value="Search"
-                                   class="btn btn-primary">
+
+                        <div class="mb-3">
+                            <label>Student Roll</label>
+                            <input type="text" name="rollnumber" class="form-control" required>
                         </div>
+
+                        <div class="mb-3">
+                            <label>Exam</label>
+                            <select name="exam_type" class="form-control" required>
+                                @foreach($exams as $exam)
+                                    <option value="{{ $exam->id }}">
+                                        {{ $exam->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <button class="btn btn-primary">
+                            Search
+                        </button>
                     </form>
                 </div>
             </div>
